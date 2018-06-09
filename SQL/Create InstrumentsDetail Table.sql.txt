@@ -1,0 +1,51 @@
+USE [Markets]
+GO
+
+/****** Object:  Table [dbo].[Instruments]    Script Date: 5/27/2017 7:10:57 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Instruments](
+	[InstrumentID] [int] IDENTITY(1,1) NOT NULL,
+	[MarketID] [int] NOT NULL,
+	[ExchangeID] [int] NOT NULL,
+	[Name] [nvarchar](20) NULL,
+	[BaseCurrency] [nvarchar](10) NOT NULL,
+	[QuoteCurrency] [nvarchar](10) NOT NULL,
+	[Active] [bit] NOT NULL,
+ CONSTRAINT [PK_Instruments] PRIMARY KEY CLUSTERED 
+(
+	[InstrumentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Instruments] ADD  CONSTRAINT [DF__Instrumen__Excha__403A8C7D]  DEFAULT ((1)) FOR [ExchangeID]
+GO
+
+ALTER TABLE [dbo].[Instruments]  WITH CHECK ADD  CONSTRAINT [FK_Instruments_Exchanges] FOREIGN KEY([ExchangeID])
+REFERENCES [dbo].[Exchanges] ([ExchangeID])
+GO
+
+ALTER TABLE [dbo].[Instruments] CHECK CONSTRAINT [FK_Instruments_Exchanges]
+GO
+
+ALTER TABLE [dbo].[Instruments]  WITH CHECK ADD  CONSTRAINT [FK_Instruments_Market] FOREIGN KEY([MarketID])
+REFERENCES [dbo].[Markets] ([MarketID])
+GO
+
+ALTER TABLE [dbo].[Instruments] CHECK CONSTRAINT [FK_Instruments_Market]
+GO
+
+ALTER TABLE [dbo].[Instruments]  WITH CHECK ADD  CONSTRAINT [FK_Instruments_Markets] FOREIGN KEY([MarketID])
+REFERENCES [dbo].[Markets] ([MarketID])
+GO
+
+ALTER TABLE [dbo].[Instruments] CHECK CONSTRAINT [FK_Instruments_Markets]
+GO
+
+

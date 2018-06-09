@@ -1,0 +1,50 @@
+USE [Markets]
+GO
+
+/****** Object:  Table [dbo].[MarketData]    Script Date: 5/27/2017 7:13:27 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[MarketData](
+	[MarketDataID] [int] IDENTITY(1,1) NOT NULL,
+	[MarketID] [int] NOT NULL,
+	[ExchangeID] [int] NOT NULL,
+	[InstrumentID] [int] NOT NULL,
+	[Timestamp] [datetime] NOT NULL,
+	[OpenPrice] [decimal](16, 8) NOT NULL,
+	[ClosePrice] [decimal](16, 8) NOT NULL,
+	[HighPrice] [decimal](16, 8) NOT NULL,
+	[LowPrice] [decimal](16, 8) NOT NULL,
+ CONSTRAINT [PK_MarketData] PRIMARY KEY CLUSTERED 
+(
+	[MarketDataID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[MarketData]  WITH CHECK ADD  CONSTRAINT [FK_MarketData_Exchanges] FOREIGN KEY([ExchangeID])
+REFERENCES [dbo].[Exchanges] ([ExchangeID])
+GO
+
+ALTER TABLE [dbo].[MarketData] CHECK CONSTRAINT [FK_MarketData_Exchanges]
+GO
+
+ALTER TABLE [dbo].[MarketData]  WITH CHECK ADD  CONSTRAINT [FK_MarketData_Instruments] FOREIGN KEY([InstrumentID])
+REFERENCES [dbo].[Instruments] ([InstrumentID])
+GO
+
+ALTER TABLE [dbo].[MarketData] CHECK CONSTRAINT [FK_MarketData_Instruments]
+GO
+
+ALTER TABLE [dbo].[MarketData]  WITH CHECK ADD  CONSTRAINT [FK_MarketData_Market] FOREIGN KEY([MarketID])
+REFERENCES [dbo].[Markets] ([MarketID])
+GO
+
+ALTER TABLE [dbo].[MarketData] CHECK CONSTRAINT [FK_MarketData_Market]
+GO
+
+

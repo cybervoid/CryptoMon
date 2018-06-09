@@ -1,0 +1,54 @@
+USE [Markets]
+GO
+
+/****** Object:  Table [dbo].[CurrentData]    Script Date: 5/27/2017 7:08:53 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CurrentData](
+	[CurrentID] [int] IDENTITY(1,1) NOT NULL,
+	[MarketID] [int] NOT NULL,
+	[ExchangeID] [int] NOT NULL,
+	[InstrumentID] [int] NOT NULL,
+	[Flag] [int] NOT NULL,
+	[Price] [decimal](16, 8) NOT NULL,
+	[LastUpdate] [datetime] NOT NULL,
+	[LastVolume] [decimal](16, 8) NOT NULL,
+	[LastVolumeTo] [decimal](16, 8) NOT NULL,
+	[LastTradeId] [int] NOT NULL,
+	[Volume24h] [decimal](25, 13) NOT NULL,
+	[Volume24hTo] [decimal](25, 13) NOT NULL,
+	[MaskInt] [int] NOT NULL,
+ CONSTRAINT [PK_CurrentData] PRIMARY KEY CLUSTERED 
+(
+	[CurrentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[CurrentData]  WITH CHECK ADD  CONSTRAINT [FK_CurrentData_Exchanges] FOREIGN KEY([ExchangeID])
+REFERENCES [dbo].[Exchanges] ([ExchangeID])
+GO
+
+ALTER TABLE [dbo].[CurrentData] CHECK CONSTRAINT [FK_CurrentData_Exchanges]
+GO
+
+ALTER TABLE [dbo].[CurrentData]  WITH CHECK ADD  CONSTRAINT [FK_CurrentData_Instruments] FOREIGN KEY([InstrumentID])
+REFERENCES [dbo].[Instruments] ([InstrumentID])
+GO
+
+ALTER TABLE [dbo].[CurrentData] CHECK CONSTRAINT [FK_CurrentData_Instruments]
+GO
+
+ALTER TABLE [dbo].[CurrentData]  WITH CHECK ADD  CONSTRAINT [FK_CurrentData_Market] FOREIGN KEY([MarketID])
+REFERENCES [dbo].[Markets] ([MarketID])
+GO
+
+ALTER TABLE [dbo].[CurrentData] CHECK CONSTRAINT [FK_CurrentData_Market]
+GO
+
+

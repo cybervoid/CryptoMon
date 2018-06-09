@@ -1,0 +1,808 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MarketsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CurrentAggData">
+          <Key>
+            <PropertyRef Name="CurrentAggID" />
+          </Key>
+          <Property Name="CurrentAggID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarketID" Type="int" Nullable="false" />
+          <Property Name="ExchangeID" Type="int" Nullable="false" />
+          <Property Name="InstrumentID" Type="int" Nullable="false" />
+          <Property Name="Flag" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+          <Property Name="LastVolume" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastVolumeTo" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastTradeId" Type="int" Nullable="false" />
+          <Property Name="Open24Hour" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24h" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24hTo" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24Hour" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24HourTo" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Low24Hour" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="High24Hour" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="MaskInt" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CurrentData">
+          <Key>
+            <PropertyRef Name="CurrentID" />
+          </Key>
+          <Property Name="CurrentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarketID" Type="int" Nullable="false" />
+          <Property Name="ExchangeID" Type="int" Nullable="false" />
+          <Property Name="InstrumentID" Type="int" Nullable="false" />
+          <Property Name="Flag" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+          <Property Name="LastVolume" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastVolumeTo" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastTradeId" Type="int" Nullable="false" />
+          <Property Name="Volume24h" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24hTo" Type="decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="MaskInt" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Exchanges">
+          <Key>
+            <PropertyRef Name="ExchangeID" />
+          </Key>
+          <Property Name="ExchangeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Exchange" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Instruments">
+          <Key>
+            <PropertyRef Name="InstrumentID" />
+          </Key>
+          <Property Name="InstrumentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarketID" Type="int" Nullable="false" />
+          <Property Name="ExchangeID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+          <Property Name="BaseCurrency" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="QuoteCurrency" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Interval" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Markets.dbo.InstrumentsDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="InstrumentsDetail">
+          <Key>
+            <PropertyRef Name="InstrumentDetailID" />
+            <PropertyRef Name="InstrucmentID" />
+          </Key>
+          <Property Name="InstrumentDetailID" Type="int" Nullable="false" />
+          <Property Name="InstrucmentID" Type="int" Nullable="false" />
+          <Property Name="HouryThreshold" Type="nchar" MaxLength="10" />
+          <Property Name="FourHourThreshold" Type="nchar" MaxLength="10" />
+          <Property Name="DailyThreshold" Type="nchar" MaxLength="10" />
+          <Property Name="HourlyThresholdPercent" Type="nchar" MaxLength="10" />
+          <Property Name="FourHourThresholdPercent" Type="nchar" MaxLength="10" />
+          <Property Name="DailyThresholdPercent" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="MarketData">
+          <Key>
+            <PropertyRef Name="MarketDataID" />
+          </Key>
+          <Property Name="MarketDataID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarketID" Type="int" Nullable="false" />
+          <Property Name="ExchangeID" Type="int" Nullable="false" />
+          <Property Name="InstrumentID" Type="int" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="OpenPrice" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="ClosePrice" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="HighPrice" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LowPrice" Type="decimal" Precision="16" Scale="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Markets">
+          <Key>
+            <PropertyRef Name="MarketID" />
+          </Key>
+          <Property Name="MarketID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Market" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_CurrentAggData_Exchanges">
+          <End Role="Exchanges" Type="Self.Exchanges" Multiplicity="1" />
+          <End Role="CurrentAggData" Type="Self.CurrentAggData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exchanges">
+              <PropertyRef Name="ExchangeID" />
+            </Principal>
+            <Dependent Role="CurrentAggData">
+              <PropertyRef Name="ExchangeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentAggData_Instruments">
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="1" />
+          <End Role="CurrentAggData" Type="Self.CurrentAggData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instruments">
+              <PropertyRef Name="InstrumentID" />
+            </Principal>
+            <Dependent Role="CurrentAggData">
+              <PropertyRef Name="InstrumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentAggData_Market">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="CurrentAggData" Type="Self.CurrentAggData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="CurrentAggData">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentData_Exchanges">
+          <End Role="Exchanges" Type="Self.Exchanges" Multiplicity="1" />
+          <End Role="CurrentData" Type="Self.CurrentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exchanges">
+              <PropertyRef Name="ExchangeID" />
+            </Principal>
+            <Dependent Role="CurrentData">
+              <PropertyRef Name="ExchangeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentData_Instruments">
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="1" />
+          <End Role="CurrentData" Type="Self.CurrentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instruments">
+              <PropertyRef Name="InstrumentID" />
+            </Principal>
+            <Dependent Role="CurrentData">
+              <PropertyRef Name="InstrumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentData_Market">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="CurrentData" Type="Self.CurrentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="CurrentData">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Instruments_Exchanges">
+          <End Role="Exchanges" Type="Self.Exchanges" Multiplicity="1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exchanges">
+              <PropertyRef Name="ExchangeID" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="ExchangeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Instruments_Market">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Instruments_Markets">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MarketData_Exchanges">
+          <End Role="Exchanges" Type="Self.Exchanges" Multiplicity="1" />
+          <End Role="MarketData" Type="Self.MarketData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exchanges">
+              <PropertyRef Name="ExchangeID" />
+            </Principal>
+            <Dependent Role="MarketData">
+              <PropertyRef Name="ExchangeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MarketData_Instruments">
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="1" />
+          <End Role="MarketData" Type="Self.MarketData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instruments">
+              <PropertyRef Name="InstrumentID" />
+            </Principal>
+            <Dependent Role="MarketData">
+              <PropertyRef Name="InstrumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MarketData_Market">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="MarketData" Type="Self.MarketData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="MarketData">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MarketsModelStoreContainer">
+          <EntitySet Name="CurrentAggData" EntityType="Self.CurrentAggData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CurrentData" EntityType="Self.CurrentData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exchanges" EntityType="Self.Exchanges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Instruments" EntityType="Self.Instruments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarketData" EntityType="Self.MarketData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Markets" EntityType="Self.Markets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InstrumentsDetail" EntityType="Self.InstrumentsDetail" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [InstrumentsDetail].[InstrumentDetailID] AS [InstrumentDetailID], 
+    [InstrumentsDetail].[InstrucmentID] AS [InstrucmentID], 
+    [InstrumentsDetail].[HouryThreshold] AS [HouryThreshold], 
+    [InstrumentsDetail].[FourHourThreshold] AS [FourHourThreshold], 
+    [InstrumentsDetail].[DailyThreshold] AS [DailyThreshold], 
+    [InstrumentsDetail].[HourlyThresholdPercent] AS [HourlyThresholdPercent], 
+    [InstrumentsDetail].[FourHourThresholdPercent] AS [FourHourThresholdPercent], 
+    [InstrumentsDetail].[DailyThresholdPercent] AS [DailyThresholdPercent]
+    FROM [dbo].[InstrumentsDetail] AS [InstrumentsDetail]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CurrentAggData_Exchanges" Association="Self.FK_CurrentAggData_Exchanges">
+            <End Role="Exchanges" EntitySet="Exchanges" />
+            <End Role="CurrentAggData" EntitySet="CurrentAggData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentAggData_Instruments" Association="Self.FK_CurrentAggData_Instruments">
+            <End Role="Instruments" EntitySet="Instruments" />
+            <End Role="CurrentAggData" EntitySet="CurrentAggData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentAggData_Market" Association="Self.FK_CurrentAggData_Market">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="CurrentAggData" EntitySet="CurrentAggData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentData_Exchanges" Association="Self.FK_CurrentData_Exchanges">
+            <End Role="Exchanges" EntitySet="Exchanges" />
+            <End Role="CurrentData" EntitySet="CurrentData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentData_Instruments" Association="Self.FK_CurrentData_Instruments">
+            <End Role="Instruments" EntitySet="Instruments" />
+            <End Role="CurrentData" EntitySet="CurrentData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentData_Market" Association="Self.FK_CurrentData_Market">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="CurrentData" EntitySet="CurrentData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Instruments_Exchanges" Association="Self.FK_Instruments_Exchanges">
+            <End Role="Exchanges" EntitySet="Exchanges" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Instruments_Market" Association="Self.FK_Instruments_Market">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Instruments_Markets" Association="Self.FK_Instruments_Markets">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MarketData_Exchanges" Association="Self.FK_MarketData_Exchanges">
+            <End Role="Exchanges" EntitySet="Exchanges" />
+            <End Role="MarketData" EntitySet="MarketData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MarketData_Instruments" Association="Self.FK_MarketData_Instruments">
+            <End Role="Instruments" EntitySet="Instruments" />
+            <End Role="MarketData" EntitySet="MarketData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MarketData_Market" Association="Self.FK_MarketData_Market">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="MarketData" EntitySet="MarketData" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MarketsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CurrentAggData">
+          <Key>
+            <PropertyRef Name="CurrentAggID" />
+          </Key>
+          <Property Name="CurrentAggID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarketID" Type="Int32" Nullable="false" />
+          <Property Name="ExchangeID" Type="Int32" Nullable="false" />
+          <Property Name="InstrumentID" Type="Int32" Nullable="false" />
+          <Property Name="Flag" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastUpdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastVolume" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastVolumeTo" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastTradeId" Type="Int32" Nullable="false" />
+          <Property Name="Open24Hour" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24h" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24hTo" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24Hour" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24HourTo" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Low24Hour" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="High24Hour" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="MaskInt" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Exchanges" Relationship="Self.FK_CurrentAggData_Exchanges" FromRole="CurrentAggData" ToRole="Exchanges" />
+          <NavigationProperty Name="Instruments" Relationship="Self.FK_CurrentAggData_Instruments" FromRole="CurrentAggData" ToRole="Instruments" />
+          <NavigationProperty Name="Markets" Relationship="Self.FK_CurrentAggData_Market" FromRole="CurrentAggData" ToRole="Markets" />
+        </EntityType>
+        <EntityType Name="CurrentData">
+          <Key>
+            <PropertyRef Name="CurrentID" />
+          </Key>
+          <Property Name="CurrentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarketID" Type="Int32" Nullable="false" />
+          <Property Name="ExchangeID" Type="Int32" Nullable="false" />
+          <Property Name="InstrumentID" Type="Int32" Nullable="false" />
+          <Property Name="Flag" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastUpdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastVolume" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastVolumeTo" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LastTradeId" Type="Int32" Nullable="false" />
+          <Property Name="Volume24h" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="Volume24hTo" Type="Decimal" Precision="25" Scale="13" Nullable="false" />
+          <Property Name="MaskInt" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Exchanges" Relationship="Self.FK_CurrentData_Exchanges" FromRole="CurrentData" ToRole="Exchanges" />
+          <NavigationProperty Name="Instruments" Relationship="Self.FK_CurrentData_Instruments" FromRole="CurrentData" ToRole="Instruments" />
+          <NavigationProperty Name="Markets" Relationship="Self.FK_CurrentData_Market" FromRole="CurrentData" ToRole="Markets" />
+        </EntityType>
+        <EntityType Name="Exchanges">
+          <Key>
+            <PropertyRef Name="ExchangeID" />
+          </Key>
+          <Property Name="ExchangeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Exchange" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CurrentAggData" Relationship="Self.FK_CurrentAggData_Exchanges" FromRole="Exchanges" ToRole="CurrentAggData" />
+          <NavigationProperty Name="CurrentData" Relationship="Self.FK_CurrentData_Exchanges" FromRole="Exchanges" ToRole="CurrentData" />
+          <NavigationProperty Name="Instruments" Relationship="Self.FK_Instruments_Exchanges" FromRole="Exchanges" ToRole="Instruments" />
+          <NavigationProperty Name="MarketData" Relationship="Self.FK_MarketData_Exchanges" FromRole="Exchanges" ToRole="MarketData" />
+        </EntityType>
+        <EntityType Name="Instruments">
+          <Key>
+            <PropertyRef Name="InstrumentID" />
+          </Key>
+          <Property Name="InstrumentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarketID" Type="Int32" Nullable="false" />
+          <Property Name="ExchangeID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BaseCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuoteCurrency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Interval" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CurrentAggData" Relationship="Self.FK_CurrentAggData_Instruments" FromRole="Instruments" ToRole="CurrentAggData" />
+          <NavigationProperty Name="CurrentData" Relationship="Self.FK_CurrentData_Instruments" FromRole="Instruments" ToRole="CurrentData" />
+          <NavigationProperty Name="Exchanges" Relationship="Self.FK_Instruments_Exchanges" FromRole="Instruments" ToRole="Exchanges" />
+          <NavigationProperty Name="Markets" Relationship="Self.FK_Instruments_Market" FromRole="Instruments" ToRole="Markets" />
+          <NavigationProperty Name="Markets1" Relationship="Self.FK_Instruments_Markets" FromRole="Instruments" ToRole="Markets" />
+          <NavigationProperty Name="MarketData" Relationship="Self.FK_MarketData_Instruments" FromRole="Instruments" ToRole="MarketData" />
+        </EntityType>
+        <EntityType Name="MarketData">
+          <Key>
+            <PropertyRef Name="MarketDataID" />
+          </Key>
+          <Property Name="MarketDataID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarketID" Type="Int32" Nullable="false" />
+          <Property Name="ExchangeID" Type="Int32" Nullable="false" />
+          <Property Name="InstrumentID" Type="Int32" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OpenPrice" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="ClosePrice" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="HighPrice" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <Property Name="LowPrice" Type="Decimal" Precision="16" Scale="8" Nullable="false" />
+          <NavigationProperty Name="Exchanges" Relationship="Self.FK_MarketData_Exchanges" FromRole="MarketData" ToRole="Exchanges" />
+          <NavigationProperty Name="Instruments" Relationship="Self.FK_MarketData_Instruments" FromRole="MarketData" ToRole="Instruments" />
+          <NavigationProperty Name="Markets" Relationship="Self.FK_MarketData_Market" FromRole="MarketData" ToRole="Markets" />
+        </EntityType>
+        <EntityType Name="Markets">
+          <Key>
+            <PropertyRef Name="MarketID" />
+          </Key>
+          <Property Name="MarketID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Market" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CurrentAggData" Relationship="Self.FK_CurrentAggData_Market" FromRole="Markets" ToRole="CurrentAggData" />
+          <NavigationProperty Name="CurrentData" Relationship="Self.FK_CurrentData_Market" FromRole="Markets" ToRole="CurrentData" />
+          <NavigationProperty Name="Instruments" Relationship="Self.FK_Instruments_Market" FromRole="Markets" ToRole="Instruments" />
+          <NavigationProperty Name="Instruments1" Relationship="Self.FK_Instruments_Markets" FromRole="Markets" ToRole="Instruments" />
+          <NavigationProperty Name="MarketData" Relationship="Self.FK_MarketData_Market" FromRole="Markets" ToRole="MarketData" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="InstrumentsDetail">
+          <Key>
+            <PropertyRef Name="InstrumentDetailID" />
+            <PropertyRef Name="InstrucmentID" />
+          </Key>
+          <Property Name="InstrumentDetailID" Type="Int32" Nullable="false" />
+          <Property Name="InstrucmentID" Type="Int32" Nullable="false" />
+          <Property Name="HouryThreshold" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FourHourThreshold" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DailyThreshold" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="HourlyThresholdPercent" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FourHourThresholdPercent" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DailyThresholdPercent" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CurrentAggData_Exchanges">
+          <End Role="Exchanges" Type="Self.Exchanges" Multiplicity="1" />
+          <End Role="CurrentAggData" Type="Self.CurrentAggData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exchanges">
+              <PropertyRef Name="ExchangeID" />
+            </Principal>
+            <Dependent Role="CurrentAggData">
+              <PropertyRef Name="ExchangeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentAggData_Instruments">
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="1" />
+          <End Role="CurrentAggData" Type="Self.CurrentAggData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instruments">
+              <PropertyRef Name="InstrumentID" />
+            </Principal>
+            <Dependent Role="CurrentAggData">
+              <PropertyRef Name="InstrumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentAggData_Market">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="CurrentAggData" Type="Self.CurrentAggData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="CurrentAggData">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentData_Exchanges">
+          <End Role="Exchanges" Type="Self.Exchanges" Multiplicity="1" />
+          <End Role="CurrentData" Type="Self.CurrentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exchanges">
+              <PropertyRef Name="ExchangeID" />
+            </Principal>
+            <Dependent Role="CurrentData">
+              <PropertyRef Name="ExchangeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentData_Instruments">
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="1" />
+          <End Role="CurrentData" Type="Self.CurrentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instruments">
+              <PropertyRef Name="InstrumentID" />
+            </Principal>
+            <Dependent Role="CurrentData">
+              <PropertyRef Name="InstrumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentData_Market">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="CurrentData" Type="Self.CurrentData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="CurrentData">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Instruments_Exchanges">
+          <End Role="Exchanges" Type="Self.Exchanges" Multiplicity="1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exchanges">
+              <PropertyRef Name="ExchangeID" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="ExchangeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MarketData_Exchanges">
+          <End Role="Exchanges" Type="Self.Exchanges" Multiplicity="1" />
+          <End Role="MarketData" Type="Self.MarketData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exchanges">
+              <PropertyRef Name="ExchangeID" />
+            </Principal>
+            <Dependent Role="MarketData">
+              <PropertyRef Name="ExchangeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Instruments_Market">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Instruments_Markets">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="Instruments">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MarketData_Instruments">
+          <End Role="Instruments" Type="Self.Instruments" Multiplicity="1" />
+          <End Role="MarketData" Type="Self.MarketData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instruments">
+              <PropertyRef Name="InstrumentID" />
+            </Principal>
+            <Dependent Role="MarketData">
+              <PropertyRef Name="InstrumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MarketData_Market">
+          <End Role="Markets" Type="Self.Markets" Multiplicity="1" />
+          <End Role="MarketData" Type="Self.MarketData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markets">
+              <PropertyRef Name="MarketID" />
+            </Principal>
+            <Dependent Role="MarketData">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MarketsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CurrentAggData" EntityType="Self.CurrentAggData" />
+          <EntitySet Name="CurrentData" EntityType="Self.CurrentData" />
+          <EntitySet Name="Exchanges" EntityType="Self.Exchanges" />
+          <EntitySet Name="Instruments" EntityType="Self.Instruments" />
+          <EntitySet Name="MarketData" EntityType="Self.MarketData" />
+          <EntitySet Name="Markets" EntityType="Self.Markets" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="InstrumentsDetail" EntityType="Self.InstrumentsDetail" />
+          <AssociationSet Name="FK_CurrentAggData_Exchanges" Association="Self.FK_CurrentAggData_Exchanges">
+            <End Role="Exchanges" EntitySet="Exchanges" />
+            <End Role="CurrentAggData" EntitySet="CurrentAggData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentAggData_Instruments" Association="Self.FK_CurrentAggData_Instruments">
+            <End Role="Instruments" EntitySet="Instruments" />
+            <End Role="CurrentAggData" EntitySet="CurrentAggData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentAggData_Market" Association="Self.FK_CurrentAggData_Market">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="CurrentAggData" EntitySet="CurrentAggData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentData_Exchanges" Association="Self.FK_CurrentData_Exchanges">
+            <End Role="Exchanges" EntitySet="Exchanges" />
+            <End Role="CurrentData" EntitySet="CurrentData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentData_Instruments" Association="Self.FK_CurrentData_Instruments">
+            <End Role="Instruments" EntitySet="Instruments" />
+            <End Role="CurrentData" EntitySet="CurrentData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentData_Market" Association="Self.FK_CurrentData_Market">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="CurrentData" EntitySet="CurrentData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Instruments_Exchanges" Association="Self.FK_Instruments_Exchanges">
+            <End Role="Exchanges" EntitySet="Exchanges" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MarketData_Exchanges" Association="Self.FK_MarketData_Exchanges">
+            <End Role="Exchanges" EntitySet="Exchanges" />
+            <End Role="MarketData" EntitySet="MarketData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Instruments_Market" Association="Self.FK_Instruments_Market">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Instruments_Markets" Association="Self.FK_Instruments_Markets">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="Instruments" EntitySet="Instruments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MarketData_Instruments" Association="Self.FK_MarketData_Instruments">
+            <End Role="Instruments" EntitySet="Instruments" />
+            <End Role="MarketData" EntitySet="MarketData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MarketData_Market" Association="Self.FK_MarketData_Market">
+            <End Role="Markets" EntitySet="Markets" />
+            <End Role="MarketData" EntitySet="MarketData" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MarketsModelStoreContainer" CdmEntityContainer="MarketsEntities">
+          <EntitySetMapping Name="CurrentAggData">
+            <EntityTypeMapping TypeName="MarketsModel.CurrentAggData">
+              <MappingFragment StoreEntitySet="CurrentAggData">
+                <ScalarProperty Name="CurrentAggID" ColumnName="CurrentAggID" />
+                <ScalarProperty Name="MarketID" ColumnName="MarketID" />
+                <ScalarProperty Name="ExchangeID" ColumnName="ExchangeID" />
+                <ScalarProperty Name="InstrumentID" ColumnName="InstrumentID" />
+                <ScalarProperty Name="Flag" ColumnName="Flag" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="LastVolume" ColumnName="LastVolume" />
+                <ScalarProperty Name="LastVolumeTo" ColumnName="LastVolumeTo" />
+                <ScalarProperty Name="LastTradeId" ColumnName="LastTradeId" />
+                <ScalarProperty Name="Open24Hour" ColumnName="Open24Hour" />
+                <ScalarProperty Name="Volume24h" ColumnName="Volume24h" />
+                <ScalarProperty Name="Volume24hTo" ColumnName="Volume24hTo" />
+                <ScalarProperty Name="Volume24Hour" ColumnName="Volume24Hour" />
+                <ScalarProperty Name="Volume24HourTo" ColumnName="Volume24HourTo" />
+                <ScalarProperty Name="Low24Hour" ColumnName="Low24Hour" />
+                <ScalarProperty Name="High24Hour" ColumnName="High24Hour" />
+                <ScalarProperty Name="MaskInt" ColumnName="MaskInt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurrentData">
+            <EntityTypeMapping TypeName="MarketsModel.CurrentData">
+              <MappingFragment StoreEntitySet="CurrentData">
+                <ScalarProperty Name="CurrentID" ColumnName="CurrentID" />
+                <ScalarProperty Name="MarketID" ColumnName="MarketID" />
+                <ScalarProperty Name="ExchangeID" ColumnName="ExchangeID" />
+                <ScalarProperty Name="InstrumentID" ColumnName="InstrumentID" />
+                <ScalarProperty Name="Flag" ColumnName="Flag" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="LastVolume" ColumnName="LastVolume" />
+                <ScalarProperty Name="LastVolumeTo" ColumnName="LastVolumeTo" />
+                <ScalarProperty Name="LastTradeId" ColumnName="LastTradeId" />
+                <ScalarProperty Name="Volume24h" ColumnName="Volume24h" />
+                <ScalarProperty Name="Volume24hTo" ColumnName="Volume24hTo" />
+                <ScalarProperty Name="MaskInt" ColumnName="MaskInt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exchanges">
+            <EntityTypeMapping TypeName="MarketsModel.Exchanges">
+              <MappingFragment StoreEntitySet="Exchanges">
+                <ScalarProperty Name="ExchangeID" ColumnName="ExchangeID" />
+                <ScalarProperty Name="Exchange" ColumnName="Exchange" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Instruments">
+            <EntityTypeMapping TypeName="MarketsModel.Instruments">
+              <MappingFragment StoreEntitySet="Instruments">
+                <ScalarProperty Name="InstrumentID" ColumnName="InstrumentID" />
+                <ScalarProperty Name="MarketID" ColumnName="MarketID" />
+                <ScalarProperty Name="ExchangeID" ColumnName="ExchangeID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BaseCurrency" ColumnName="BaseCurrency" />
+                <ScalarProperty Name="QuoteCurrency" ColumnName="QuoteCurrency" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Interval" ColumnName="Interval" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketData">
+            <EntityTypeMapping TypeName="MarketsModel.MarketData">
+              <MappingFragment StoreEntitySet="MarketData">
+                <ScalarProperty Name="MarketDataID" ColumnName="MarketDataID" />
+                <ScalarProperty Name="MarketID" ColumnName="MarketID" />
+                <ScalarProperty Name="ExchangeID" ColumnName="ExchangeID" />
+                <ScalarProperty Name="InstrumentID" ColumnName="InstrumentID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="OpenPrice" ColumnName="OpenPrice" />
+                <ScalarProperty Name="ClosePrice" ColumnName="ClosePrice" />
+                <ScalarProperty Name="HighPrice" ColumnName="HighPrice" />
+                <ScalarProperty Name="LowPrice" ColumnName="LowPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Markets">
+            <EntityTypeMapping TypeName="MarketsModel.Markets">
+              <MappingFragment StoreEntitySet="Markets">
+                <ScalarProperty Name="MarketID" ColumnName="MarketID" />
+                <ScalarProperty Name="Market" ColumnName="Market" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MarketsModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InstrumentsDetail">
+            <EntityTypeMapping TypeName="MarketsModel.InstrumentsDetail">
+              <MappingFragment StoreEntitySet="InstrumentsDetail">
+                <ScalarProperty Name="InstrumentDetailID" ColumnName="InstrumentDetailID" />
+                <ScalarProperty Name="InstrucmentID" ColumnName="InstrucmentID" />
+                <ScalarProperty Name="HouryThreshold" ColumnName="HouryThreshold" />
+                <ScalarProperty Name="FourHourThreshold" ColumnName="FourHourThreshold" />
+                <ScalarProperty Name="DailyThreshold" ColumnName="DailyThreshold" />
+                <ScalarProperty Name="HourlyThresholdPercent" ColumnName="HourlyThresholdPercent" />
+                <ScalarProperty Name="FourHourThresholdPercent" ColumnName="FourHourThresholdPercent" />
+                <ScalarProperty Name="DailyThresholdPercent" ColumnName="DailyThresholdPercent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

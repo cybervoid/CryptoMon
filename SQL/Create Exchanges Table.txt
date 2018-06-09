@@ -1,0 +1,22 @@
+USE [Markets]
+GO
+
+/****** Object:  Table [dbo].[Exchanges]    Script Date: 5/27/2017 7:09:59 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Exchanges](
+	[ExchangeID] [int] IDENTITY(1,1) NOT NULL,
+	[Exchange] [varchar](20) NOT NULL,
+ CONSTRAINT [PK_Exchange] PRIMARY KEY CLUSTERED 
+(
+	[ExchangeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
